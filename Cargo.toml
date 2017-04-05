@@ -1,0 +1,6 @@
+[package]
+name = "fnr"
+version = "0.1.0"
+authors = ["Manuel A. Rodriguez <manuel@rdrsss.io>"]
+
+[dependencies]
