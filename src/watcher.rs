@@ -1,10 +1,10 @@
-
 use std::fs;
 use std::path;
 use std::string;
 use std::collections::VecDeque;
 
 
+#[derive(Debug)] // Deriving for debug's implementation of the Display trait
 pub enum ConstructErr {
     Unknown,
     DoesntExist,
@@ -39,6 +39,7 @@ fn construct_file_list(dir: &path::Path,
                 Err(evc) => {
                     // Escalate error, or report it, or something.
                     //println!("{:?}", evc);
+                    warn!("Unable to construct file list {:?}", evc);
                 }
             }
         } else {
@@ -51,11 +52,11 @@ fn construct_file_list(dir: &path::Path,
                             Some(path_str) => {
                                 file_list.push_back(path_str.to_string());
                             }
-                            None => { /*Report error or something*/ }
+                            None => { /* TODO: Report error or something*/ }
                         }
                     }
                 }
-                None => { /*Report error or something*/ }
+                None => { /* TODO: Report error or something*/ }
             }
         }
     }
@@ -65,7 +66,6 @@ fn construct_file_list(dir: &path::Path,
 
 
 // Unit tests
-
 #[cfg(test)]
 mod tests {
     use std::env;
@@ -73,14 +73,13 @@ mod tests {
 
     #[test]
     fn construct_file_list_test() {
+        // Lets test this on the src directory
         let mut path = env::current_dir().unwrap();
-        println!("Current dir : {}", path.display());
         path.push("src");
-        println!("Current dir : {}", path.display());
 
+        // And use the rs extension to get a list of rust files.
         let v = construct_file_list(&*path, &string::String::from("rs"));
         if v.is_ok() {
-            println!("Ok!");
             for entry in v {
                 println!("VecDeque : {:?}\n", entry);
             }
