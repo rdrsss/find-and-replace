@@ -13,15 +13,15 @@ pub enum ConstructErr {
 
 /// construct_file_list custructs a file list in a given directory of all files of a given file
 /// extension.
-fn construct_file_list(dir: &path::Path,
-                       file_extension: &string::String)
-                       -> Result<VecDeque<String>, ConstructErr> {
+pub fn construct_file_list(dir: &path::PathBuf,
+                           file_extension: &string::String)
+                           -> Result<VecDeque<path::PathBuf>, ConstructErr> {
     // Check if path exists
     if !dir.exists() {
         return Err(ConstructErr::DoesntExist);
     }
 
-    let mut file_list: VecDeque<String> = VecDeque::new();
+    let mut file_list: VecDeque<path::PathBuf> = VecDeque::new();
 
     let paths = fs::read_dir(dir).unwrap();
     for p in paths {
@@ -48,12 +48,7 @@ fn construct_file_list(dir: &path::Path,
                 Some(ext) => {
                     if ext.to_str() == Some(file_extension) {
                         // Push back path onto some vec
-                        match pval.path().to_str() {
-                            Some(path_str) => {
-                                file_list.push_back(path_str.to_string());
-                            }
-                            None => { /* TODO: Report error or something*/ }
-                        }
+                        file_list.push_back(pval.path());
                     }
                 }
                 None => { /* TODO: Report error or something*/ }
@@ -62,6 +57,25 @@ fn construct_file_list(dir: &path::Path,
     }
 
     Ok(file_list)
+}
+
+#[derive(Debug)] // Deriving for debug's implementation of the Display trait
+pub enum SearchErr {
+    Unknown,
+    DoesntExist,
+    NotADir,
+}
+
+/// SearchResult contains all instances of a given search string relative to a document, containing
+/// its location.
+pub struct SearchResult {
+    path: path::PathBuf,
+}
+
+pub fn search_file(path: &path::PathBuf) -> Result<SearchResult, SearchErr> {
+    let mut result = SearchResult { path: path.clone() };
+
+    return Ok(result);
 }
 
 
@@ -78,7 +92,7 @@ mod tests {
         path.push("src");
 
         // And use the rs extension to get a list of rust files.
-        let v = construct_file_list(&*path, &string::String::from("rs"));
+        let v = construct_file_list(&path, &string::String::from("rs"));
         if v.is_ok() {
             for entry in v {
                 println!("VecDeque : {:?}\n", entry);
