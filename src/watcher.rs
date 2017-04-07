@@ -2,6 +2,9 @@ use std::fs;
 use std::path;
 use std::string;
 use std::collections::VecDeque;
+use std::fs::File;
+use std::io::BufReader;
+use std::io::Read; // could use std::io::prelude::*
 
 
 #[derive(Debug)] // Deriving for debug's implementation of the Display trait
@@ -63,7 +66,7 @@ pub fn construct_file_list(dir: &path::PathBuf,
 pub enum SearchErr {
     Unknown,
     DoesntExist,
-    NotADir,
+    NotAFile,
 }
 
 /// SearchResult contains all instances of a given search string relative to a document, containing
@@ -72,8 +75,44 @@ pub struct SearchResult {
     path: path::PathBuf,
 }
 
-pub fn search_file(path: &path::PathBuf) -> Result<SearchResult, SearchErr> {
+/// seach_file opens a file reads in its contents, and searches the text.
+/// TODO :
+///     - streaming search
+///         - read in part of the file.
+///         - search that bit.
+///             - record results.
+///         - move on.
+pub fn search_file(path: &path::PathBuf, search_str: &str) -> Result<SearchResult, SearchErr> {
     let mut result = SearchResult { path: path.clone() };
+    // Validate it's existence
+    if !path.exists() {
+        return Err(SearchErr::DoesntExist);
+    }
+    // Make sure it's a file
+    if !path.is_file() {
+        return Err(SearchErr::NotAFile);
+    }
+
+    // Open the file
+    let file = File::open(path).unwrap();
+    // Read in its contents
+    let mut buf_reader = BufReader::new(file);
+    let mut content_buf = String::new();
+    buf_reader.read_to_string(&mut content_buf).unwrap();
+
+    // Split string by line
+    let mut split = content_buf.split("\n");
+    let mut line = 0;
+    for s in split {
+        println!("{}", s);
+
+        // Increment line
+    }
+
+    // Search Contents
+
+
+    //  - Record results
 
     return Ok(result);
 }

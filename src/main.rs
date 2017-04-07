@@ -78,7 +78,7 @@ fn main() {
             let paths = pres.unwrap();
             for fp in paths {
                 println!("{:?}", fp);
-                let _ = watcher::search_file(&fp);
+                let _ = watcher::search_file(&fp, f);
             }
 
         } else {
