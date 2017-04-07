@@ -22,6 +22,11 @@ fn build_cli<'a, 'b>() -> clap::App<'a, 'b> {
                  .short("r")
                  .long("replace")
                  .help("The string to replace with")
+                 .takes_value(true))
+        .arg(clap::Arg::with_name("path")
+                 .short("p")
+                 .long("path")
+                 .help("Path of directory for search to take place, defaults to current dir")
                  .takes_value(true));
 
     return app;
@@ -35,4 +40,22 @@ fn main() {
 
     // Extract matches
     let matches = cli.get_matches();
+
+    if let Some(p) = matches.value_of("path") {
+        println!("setting path");
+        // Set the path to search in.
+
+    }
+
+    if let Some(f) = matches.value_of("find") {
+        println!("finding");
+        // Run find on path.
+    }
+
+
+    if let Some(r) = matches.value_of("replace") {
+        println!("replacing");
+        // Replace found instances.
+
+    }
 }
