@@ -17,7 +17,7 @@ fn construct_file_list(dir: &path::Path,
                        file_extension: &string::String)
                        -> Result<VecDeque<String>, ConstructErr> {
     // Check if path exists
-    if dir.exists() != true {
+    if !dir.exists() {
         return Err(ConstructErr::DoesntExist);
     }
 

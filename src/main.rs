@@ -3,6 +3,10 @@
 extern crate log;
 extern crate clap;
 
+use std::fs;
+use std::path;
+use std::env;
+
 // Pull in watcher module
 pub mod watcher;
 
@@ -41,15 +45,28 @@ fn main() {
     // Extract matches
     let matches = cli.get_matches();
 
+    // Set the path to current dir
+    let mut path = env::current_dir().unwrap();
+
     if let Some(p) = matches.value_of("path") {
         println!("setting path");
-        // Set the path to search in.
-
+        let passed_in = path::Path::new(p);
+        // Make sure is valid path.
+        if passed_in.exists() {
+            // Make sure is directory
+            if passed_in.is_dir() {
+                // Set the path to search in.
+                path = passed_in
+            }
+        }
     }
+
+    // Construct the file list.
 
     if let Some(f) = matches.value_of("find") {
         println!("finding");
-        // Run find on path.
+        // Run find on file list.
+        // Construct found instances db.
     }
 
 
