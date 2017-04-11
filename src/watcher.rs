@@ -41,7 +41,6 @@ pub fn construct_file_list(dir: &path::PathBuf,
                 }
                 Err(evc) => {
                     // Escalate error, or report it, or something.
-                    //println!("{:?}", evc);
                     warn!("Unable to construct file list {:?}", evc);
                 }
             }
@@ -72,7 +71,8 @@ pub enum SearchErr {
 /// SearchResult contains all instances of a given search string relative to a document, containing
 /// its location.
 pub struct SearchResult {
-    path: path::PathBuf,
+    pub path: path::PathBuf,
+    pub lines: VecDeque<(u32, String)>,
 }
 
 /// seach_file opens a file reads in its contents, and searches the text.
@@ -83,7 +83,10 @@ pub struct SearchResult {
 ///             - record results.
 ///         - move on.
 pub fn search_file(path: &path::PathBuf, search_str: &str) -> Result<SearchResult, SearchErr> {
-    let mut result = SearchResult { path: path.clone() };
+    let mut result = SearchResult {
+        path: path.clone(),
+        lines: VecDeque::<(u32, String)>::new(),
+    };
     // Validate it's existence
     if !path.exists() {
         return Err(SearchErr::DoesntExist);
@@ -104,9 +107,17 @@ pub fn search_file(path: &path::PathBuf, search_str: &str) -> Result<SearchResul
     let mut split = content_buf.split("\n");
     let mut line = 0;
     for s in split {
-        println!("{}", s);
+        if s.contains(search_str) {
+            // find position
+            // record line.
+            // record line number.
+            let lt = (line, String::from(s));
+            result.lines.push_back(lt);
+            // record position.
 
+        }
         // Increment line
+        line += 1;
     }
 
     // Search Contents

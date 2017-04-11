@@ -1,3 +1,7 @@
+/// Cli app for find and replace utility.
+///
+/// TODO :
+///         * console highlighting of words, and color formatting for output.
 // Include crates
 #[macro_use]
 extern crate log;
@@ -65,7 +69,7 @@ fn main() {
         }
     }
 
-    let mut ext = string::String::from("txt");
+    let mut ext = string::String::from("rs");
 
     // Construct the file list.
     let pres = watcher::construct_file_list(&path, &ext);
@@ -78,7 +82,15 @@ fn main() {
             let paths = pres.unwrap();
             for fp in paths {
                 println!("{:?}", fp);
-                let _ = watcher::search_file(&fp, f);
+                let results = watcher::search_file(&fp, f);
+                if results.is_ok() {
+                    let sr = results.unwrap();
+                    println!("results : {:?} ", sr.path);
+                    for L in sr.lines {
+                        println!("\t{:?} : {:?}", L.0, L.1);
+                    }
+                }
+
             }
 
         } else {
