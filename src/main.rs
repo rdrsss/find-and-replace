@@ -86,8 +86,8 @@ fn main() {
                 if results.is_ok() {
                     let sr = results.unwrap();
                     println!("results : {:?} ", sr.path);
-                    for L in sr.lines {
-                        println!("\t{:?} : {:?}", L.0, L.1);
+                    for l in sr.lines {
+                        println!("\t{:?} : {:?}", l.0, l.1);
                     }
                 }
 

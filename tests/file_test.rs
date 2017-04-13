@@ -6,7 +6,10 @@
 mod tests {
 
     #[test]
-    fn it_works(){
+    fn lorem_ipsum_test() {
+        // copy text file to be modified.
+
+        // find and replace instances of lorem
     }
 
 }

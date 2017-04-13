@@ -72,7 +72,7 @@ pub enum SearchErr {
 /// its location.
 pub struct SearchResult {
     pub path: path::PathBuf,
-    pub lines: VecDeque<(u32, String)>,
+    pub lines: VecDeque<(u32, String, VecDeque<u32>)>,
 }
 
 /// seach_file opens a file reads in its contents, and searches the text.
@@ -85,7 +85,7 @@ pub struct SearchResult {
 pub fn search_file(path: &path::PathBuf, search_str: &str) -> Result<SearchResult, SearchErr> {
     let mut result = SearchResult {
         path: path.clone(),
-        lines: VecDeque::<(u32, String)>::new(),
+        lines: VecDeque::<(u32, String, VecDeque<u32>)>::new(),
     };
     // Validate it's existence
     if !path.exists() {
@@ -108,12 +108,13 @@ pub fn search_file(path: &path::PathBuf, search_str: &str) -> Result<SearchResul
     let mut line = 0;
     for s in split {
         if s.contains(search_str) {
+            let positions = find_positions(s, search_str);
             // find position
             // record line.
             // record line number.
-            let lt = (line, String::from(s));
+            let lt = (line, String::from(s), positions);
             result.lines.push_back(lt);
-            // record position.
+            // record column position.
 
         }
         // Increment line
@@ -127,6 +128,17 @@ pub fn search_file(path: &path::PathBuf, search_str: &str) -> Result<SearchResul
 
     return Ok(result);
 }
+
+/// find_position finds all instances of the search string within the line buffer given.
+fn find_positions(line_buf: &str, search_str: &str) -> VecDeque<u32> {
+    let positions = VecDeque::<u32>::new();
+
+
+    return positions;
+}
+
+
+
 
 
 // Unit tests
