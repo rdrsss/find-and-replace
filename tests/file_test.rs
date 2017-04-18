@@ -19,8 +19,8 @@ mod tests {
 
     /// setup_test_file copies loremipsum.txt to be modified by the tests.
     fn setup_test_file() {
-        let path = get_tests_path();
-        println!("{:?}", path);
+        let tests_path = get_tests_path();
+        let mut file_path = tests_path + "loremipsum.txt";
     }
 
     #[test]
