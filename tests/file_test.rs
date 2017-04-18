@@ -30,9 +30,6 @@ mod tests {
         let mut copy_path = tests_path.clone();
         copy_path.push(TEST_COPY_NAME);
 
-        println!("file path : {:?}", file_path);
-        println!("copy_path : {:?}", copy_path);
-
         let res = fs::copy(file_path, copy_path);
         match res {
             Ok(_) => {}
