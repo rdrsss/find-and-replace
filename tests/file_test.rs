@@ -12,23 +12,34 @@ mod tests {
     const TEST_FILE_NAME: &'static str = "loremipsum.txt";
     const TEST_COPY_NAME: &'static str = "copy_ipsum.txt";
 
-    /// get_tests_path will construct a path to the tests directory from the top level
-    /// project directory.
-    fn get_tests_path() -> path::PathBuf {
+    // get_tests_dir_path will construct a path to the tests directory from the top level
+    // project directory.
+    fn get_tests_dir_path() -> path::PathBuf {
         let mut path = env::current_dir().unwrap();
         path.push("tests");
         return path;
     }
 
-    /// setup_test_file copies loremipsum.txt to be modified by the tests.
-    fn setup_test_file() -> bool {
-        let tests_path = get_tests_path();
-
-        let mut file_path = tests_path.clone();
+    // get_test_file_path returens a PathBuf to the test file.
+    fn get_test_file_path() -> path::PathBuf {
+        let tests_path = get_tests_dir_path();
+        let mut file_path = tests_path;
         file_path.push(TEST_FILE_NAME);
+        return file_path;
+    }
 
-        let mut copy_path = tests_path.clone();
-        copy_path.push(TEST_COPY_NAME);
+    // get_test_copy_path returens a PathBuf to the test file copy.
+    fn get_test_copy_path() -> path::PathBuf {
+        let tests_path = get_tests_dir_path();
+        let mut file_path = tests_path;
+        file_path.push(TEST_COPY_NAME);
+        return file_path;
+    }
+
+    // setup_test_file copies loremipsum.txt to be modified by the tests.
+    fn setup_test_file() -> bool {
+        let file_path = get_test_file_path();
+        let copy_path = get_test_copy_path();
 
         let res = fs::copy(file_path, copy_path);
         match res {
@@ -41,11 +52,9 @@ mod tests {
         return true;
     }
 
-    /// delete_test_file delete's the test file that was created if it exists.
+    // delete_test_file delete's the test file that was created if it exists.
     fn delete_test_file() -> bool {
-        let tests_path = get_tests_path();
-        let mut copy_path = tests_path.clone();
-        copy_path.push(TEST_COPY_NAME);
+        let copy_path = get_test_copy_path();
 
         if !copy_path.exists() {
             return false;
@@ -67,6 +76,8 @@ mod tests {
     fn lorem_ipsum_test() {
         // Setup test file for finding and replacing.
         setup_test_file();
+
+        //        let res = watcher::search_file(
 
         // Find and replace instances of lorem.
 
