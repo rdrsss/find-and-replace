@@ -144,10 +144,6 @@ fn find_positions(line_buf: &str, search_str: &str) -> VecDeque<u32> {
     return positions;
 }
 
-
-
-
-
 // Unit tests
 #[cfg(test)]
 mod tests {
