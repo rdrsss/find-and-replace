@@ -75,10 +75,17 @@ mod tests {
     #[test]
     fn search_test() {
         let res = curator::search_file(&get_test_file_path(), "lorem");
-
         // Find and replace instances of lorem.
-
-
+        match res {
+            Ok(sr) => {
+                // Verify search results.
+                println!("{:?}", sr.path);
+            }
+            Err(e) => {
+                println!("{:?}", e);
+                assert!(false);
+            }
+        }
     }
 
     #[test]

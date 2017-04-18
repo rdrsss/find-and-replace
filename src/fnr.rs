@@ -3,7 +3,6 @@
 /// TODO :
 ///         * console highlighting of words, and color formatting for output.
 // Include crates
-#[macro_use]
 extern crate log;
 extern crate clap;
 
@@ -70,7 +69,7 @@ fn main() {
         }
     }
 
-    let mut ext = string::String::from("rs");
+    let ext = string::String::from("rs");
 
     // Construct the file list.
     let pres = curator::construct_file_list(&path, &ext);

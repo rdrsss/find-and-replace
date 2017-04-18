@@ -46,6 +46,7 @@ pub fn construct_file_list(dir: &path::PathBuf,
                 }
                 Err(evc) => {
                     // Escalate error, or report it, or something.
+                    return Err(evc);
                 }
             }
         } else {
@@ -108,7 +109,7 @@ pub fn search_file(path: &path::PathBuf, search_str: &str) -> Result<SearchResul
     buf_reader.read_to_string(&mut content_buf).unwrap();
 
     // Split string by line
-    let mut split = content_buf.split("\n");
+    let split = content_buf.split("\n");
     let mut line = 0;
     for s in split {
         if s.contains(search_str) {
@@ -166,8 +167,6 @@ mod tests {
         } else {
             assert!(v.is_ok());
         }
-
-
     }
 
 }
