@@ -47,6 +47,7 @@ fn build_cli<'a, 'b>() -> clap::App<'a, 'b> {
 
 // search all files recursively by extension
 fn main() {
+
     // Build the cli app
     let cli = build_cli();
 
