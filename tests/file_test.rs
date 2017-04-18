@@ -74,18 +74,38 @@ mod tests {
 
     #[test]
     fn search_test() {
-        let res = curator::search_file(&get_test_file_path(), "lorem");
-        // Find and replace instances of lorem.
-        match res {
+        // Find instances
+        let mut lower_count: usize = 0;
+        let lower_res = curator::search_file(&get_test_file_path(), "lorem");
+        match lower_res {
             Ok(sr) => {
                 // Verify search results.
                 println!("{:?}", sr.path);
+                println!("{:?}", sr.lines.len());
+                lower_count = sr.lines.len()
             }
             Err(e) => {
                 println!("{:?}", e);
                 assert!(false);
             }
         }
+        // Test case sensitivity
+        let mut mixed_count: usize = 0;
+        let mixed_res = curator::search_file(&get_test_file_path(), "LOrem");
+        match mixed_res {
+            Ok(sr) => {
+                // Verify search results.
+                println!("{:?}", sr.path);
+                println!("{:?}", sr.lines.len());
+                mixed_count = sr.lines.len();
+            }
+            Err(e) => {
+                println!("{:?}", e);
+                assert!(false);
+            }
+        }
+
+        assert_eq!(lower_count, mixed_count);
     }
 
     #[test]
