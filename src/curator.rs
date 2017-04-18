@@ -112,8 +112,10 @@ pub fn search_file(path: &path::PathBuf, search_str: &str) -> Result<SearchResul
     let split = content_buf.split("\n");
     let mut line = 0;
     for s in split {
-        if s.contains(search_str) {
-            let positions = find_positions(s, search_str);
+        let lower = s.to_lowercase();
+        let search = String::from(search_str.to_lowercase());
+        if lower.contains(search.as_str()) {
+            let positions = find_positions(lower.as_str(), search.as_str());
             // find position
             // record line.
             // record line number.
