@@ -1,3 +1,8 @@
+/// The curator is in charge of searching through files for entries, cataloguing and returning
+/// them, as well as potentially modifying entries, and writing them back out to file.
+///
+///
+
 use std::fs;
 use std::path;
 use std::string;
@@ -41,7 +46,6 @@ pub fn construct_file_list(dir: &path::PathBuf,
                 }
                 Err(evc) => {
                     // Escalate error, or report it, or something.
-                    warn!("Unable to construct file list {:?}", evc);
                 }
             }
         } else {

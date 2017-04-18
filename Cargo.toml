@@ -1,7 +1,15 @@
 [package]
-name = "fnr"
+name = "find-and-replace"
 version = "0.1.0"
 authors = ["Manuel A. Rodriguez <manuel@rdrsss.io>"]
+
+[lib]
+name = "curator"
+path = "src/curator.rs"
+
+[[bin]]
+name = "fnr"
+path = "src/fnr.rs"
 
 [dependencies]
 log = "0.3"

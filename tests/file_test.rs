@@ -1,13 +1,13 @@
-
-
 // Integration tests
 //
 #[cfg(test)]
 mod tests {
+    extern crate curator;
 
     use std::fs;
     use std::env;
     use std::path;
+
 
     const TEST_FILE_NAME: &'static str = "loremipsum.txt";
     const TEST_COPY_NAME: &'static str = "copy_ipsum.txt";
@@ -73,16 +73,23 @@ mod tests {
     }
 
     #[test]
-    fn lorem_ipsum_test() {
-        // Setup test file for finding and replacing.
-        setup_test_file();
-
-        //        let res = watcher::search_file(
+    fn search_test() {
+        let res = curator::search_file(&get_test_file_path(), "lorem");
 
         // Find and replace instances of lorem.
 
+
+    }
+
+    #[test]
+    fn find_and_replace_test() {
+        // Setup test file for finding and replacing.
+        setup_test_file();
+
+
         // Delete test file.
         delete_test_file();
+
     }
 
 }

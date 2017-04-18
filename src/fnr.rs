@@ -11,8 +11,8 @@ use std::path;
 use std::env;
 use std::string;
 
-// Pull in watcher module
-pub mod watcher;
+// Pull in curator module
+pub mod curator;
 
 
 /// build_cli build's the cli app.
@@ -72,7 +72,7 @@ fn main() {
     let mut ext = string::String::from("rs");
 
     // Construct the file list.
-    let pres = watcher::construct_file_list(&path, &ext);
+    let pres = curator::construct_file_list(&path, &ext);
 
     if let Some(f) = matches.value_of("find") {
         println!("finding");
@@ -82,7 +82,7 @@ fn main() {
             let paths = pres.unwrap();
             for fp in paths {
                 println!("{:?}", fp);
-                let results = watcher::search_file(&fp, f);
+                let results = curator::search_file(&fp, f);
                 if results.is_ok() {
                     let sr = results.unwrap();
                     println!("results : {:?} ", sr.path);
